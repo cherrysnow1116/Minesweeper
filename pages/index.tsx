@@ -62,7 +62,10 @@ const BombBlock = styled.div`
 `
 const COLORS = ['blue', 'green', 'red', 'purple', 'brown', 'yellow', 'black', 'pink']
 const Home: NextPage = () => {
-  const [bombs, setbombs] = useState([{ x: 0, y: 0 }])
+  const [bombs, setbombs] = useState([
+    { x: 0, y: 0 },
+    { x: 2, y: 3 },
+  ])
   // prettier-ignore
   const [board,setBoard]=useState([
   [9, 9, 9, 9, 9, 9, 9, 9, 9],
@@ -79,7 +82,55 @@ const Home: NextPage = () => {
   const onClick = (x: number, y: number) => {
     console.log(x, y)
     const newBoard: number[][] = JSON.parse(JSON.stringify(board))
-    newBoard[y][x] = bombs.some((bomb) => bomb.x === x && bomb.y === y) ? 10 : 1
+    let Newnum = 0
+    for (let i = 0; i < bombs.length; i++) {
+      if (bombs[i].x === x - 1 && bombs[i].y === y) {
+        Newnum += 1
+      } else {
+        newBoard[y][x] = 0
+      }
+    }
+    for (let i = 0; i < bombs.length; i++) {
+      if (bombs[i].x === x + 1 && bombs[i].y === y) {
+        Newnum += 1
+      }
+    }
+
+    for (let i = 0; i < bombs.length; i++) {
+      if (bombs[i].x === x && bombs[i].y === y + 1) {
+        Newnum += 1
+      }
+    }
+    for (let i = 0; i < bombs.length; i++) {
+      if (bombs[i].x === x && bombs[i].y === y - 1) {
+        Newnum += 1
+      }
+    }
+    for (let i = 0; i < bombs.length; i++) {
+      if (bombs[i].x === x + 1 && bombs[i].y === y - 1) {
+        Newnum += 1
+      }
+    }
+    for (let i = 0; i < bombs.length; i++) {
+      if (bombs[i].x === x + 1 && bombs[i].y === y + 1) {
+        Newnum += 1
+      }
+    }
+    for (let i = 0; i < bombs.length; i++) {
+      if (bombs[i].x === x - 1 && bombs[i].y === y + 1) {
+        Newnum += 1
+      }
+    }
+    for (let i = 0; i < bombs.length; i++) {
+      if (bombs[i].x === x - 1 && bombs[i].y === y - 1) {
+        Newnum += 1
+      }
+    }
+    if (10 < Newnum) {
+      Newnum = 10
+    }
+    newBoard[y][x] = Newnum
+
     setBoard(newBoard)
   }
 
