@@ -64,7 +64,7 @@ const COLORS = ['blue', 'green', 'red', 'purple', 'brown', 'yellow', 'black', 'p
 const Home: NextPage = () => {
   const [bombs, setbombs] = useState([
     { x: 0, y: 0 },
-    { x: 2, y: 3 },
+    { x: 2, y: 2 },
   ])
   // prettier-ignore
   const [board,setBoard]=useState([
@@ -79,10 +79,11 @@ const Home: NextPage = () => {
   [9, 9, 9, 9, 9, 9, 9, 9, 9],
   
   ])
-  const onClick = (x: number, y: number) => {
-    console.log(x, y)
+  const createNewBoard = (x: number, y: number, board: number[][]) => {
     const newBoard: number[][] = JSON.parse(JSON.stringify(board))
+
     let Newnum = 0
+    console.log(x, y)
     for (let i = 0; i < bombs.length; i++) {
       if (bombs[i].x === x - 1 && bombs[i].y === y) {
         Newnum += 1
@@ -129,10 +130,37 @@ const Home: NextPage = () => {
     if (10 < Newnum) {
       Newnum = 10
     }
-    newBoard[y][x] = Newnum
 
+    if (Newnum === 0) {
+      console.log('zeroclick')
+    }
+    newBoard[y][x] = Newnum
+    console.log('abc', newBoard)
+    if (Newnum === 0 && x > 0 && y > 0) {
+      console.log(onClick(x - 1, y - 1))
+    }
+
+    return newBoard
+  }
+  const onClick = (x: number, y: number) => {
+    const newBoard = createNewBoard(x, y, board)
     setBoard(newBoard)
   }
+
+  // const IsFirstContactWithZero = (x ,y) => {
+
+  //   return true(false)
+  // }
+
+  // const OpenAroundZero = (x,y) => {
+  //   if (! IsFirstContactWithZero(x,y)) return
+  //   for (i = 0; bombs.length< 8 ; i ++){
+  //     if(i === 0){
+  //       OpenAroundZero(x,y)
+  //     }
+  //   }
+
+  // }
 
   return (
     <Container>
